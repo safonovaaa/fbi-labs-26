@@ -7,7 +7,8 @@ namespace pavlovLab.Models
 {
     public class LabData
     {
-        public string Name { get; set; }
+        public Guid Id { get; set; } = Guid.Empty;
+		public string Name { get; set; }
         public string Surname { get; set; }
         public byte GroupIndex { get; set; }
         public string GroupPrefix { get; set; }
