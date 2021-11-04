@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using pavlovLab.Models;
 using pavlovLab.Storage;
+using Serilog;
 
 namespace pavlovLab
 {
@@ -25,9 +26,11 @@ namespace pavlovLab
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            ConfigureLogger();
 
             switch (Configuration["Storage:Type"].ToStorageEnum())
             {
@@ -42,7 +45,6 @@ namespace pavlovLab
                     throw new IndexOutOfRangeException($"Storage type '{Configuration["Storage:Type"]}' is unknown");
             }
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -57,6 +59,15 @@ namespace pavlovLab
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+          private void ConfigureLogger()
+        {
+            var log = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("logs\\pavlovLab.log", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            Log.Logger = log;
         }
     }
 }
