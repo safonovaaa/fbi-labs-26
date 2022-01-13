@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Authors>P.Pavlov</Authors>
-    <Company>Safonova and Skoreva</Company>
+    <Company>Zilina and Baiadilova</Company>
     <Product>Lab 7</Product>
     <PackageId>MyApp</PackageId>
   </PropertyGroup>
